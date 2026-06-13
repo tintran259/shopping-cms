@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_blocks_carousels",
+  "info": {
+    "displayName": "Carousel",
+    "icon": "monitor"
+  },
+  "options": {},
+  "attributes": {
+    "autoplay": {
+      "type": "boolean",
+      "default": true
+    },
+    "interval": {
+      "type": "integer",
+      "default": 5000,
+      "min": 0
+    },
+    "loop": {
+      "type": "boolean",
+      "default": true
+    },
+    "slides": {
+      "type": "component",
+      "component": "blocks.slide",
+      "repeatable": true
+    },
+    "startAt": {
+      "type": "datetime"
+    },
+    "endAt": {
+      "type": "datetime"
+    }
+  },
+  "config": {}
+}

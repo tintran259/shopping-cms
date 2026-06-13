@@ -30,7 +30,8 @@
       "components": [
         "blocks.image",
         "blocks.rich-text",
-        "blocks.banner"
+        "blocks.banner",
+        "blocks.carousel"
       ]
     }
   }

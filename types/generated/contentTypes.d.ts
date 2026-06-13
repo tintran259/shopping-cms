@@ -469,7 +469,7 @@ export interface ApiBannerBanner extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    zone: Schema.Attribute.DynamicZone<['blocks.image', 'blocks.rich-text']>;
+    zone: Schema.Attribute.DynamicZone<['blocks.rich-text', 'blocks.carousel']>;
   };
 }
 
@@ -501,8 +501,40 @@ export interface ApiContentSlotContentSlot extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     zone: Schema.Attribute.DynamicZone<
-      ['blocks.image', 'blocks.rich-text', 'blocks.banner']
+      ['blocks.image', 'blocks.rich-text', 'blocks.banner', 'blocks.carousel']
     >;
+  };
+}
+
+export interface ApiGlobalSeoSettingGlobalSeoSetting
+  extends Struct.SingleTypeSchema {
+  collectionName: 'global_seo_settings';
+  info: {
+    displayName: 'Global SEO Setting';
+    pluralName: 'global-seo-settings';
+    singularName: 'global-seo-setting';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    favicon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::global-seo-setting.global-seo-setting'
+    > &
+      Schema.Attribute.Private;
+    logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1020,6 +1052,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::banner.banner': ApiBannerBanner;
       'api::content-slot.content-slot': ApiContentSlotContentSlot;
+      'api::global-seo-setting.global-seo-setting': ApiGlobalSeoSettingGlobalSeoSetting;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

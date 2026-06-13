@@ -26,8 +26,8 @@
     "zone": {
       "type": "dynamiczone",
       "components": [
-        "blocks.image",
-        "blocks.rich-text"
+        "blocks.rich-text",
+        "blocks.carousel"
       ]
     },
     "startAt": {
