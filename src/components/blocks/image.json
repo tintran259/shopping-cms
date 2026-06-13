@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_image_images",
+  "info": {
+    "displayName": "Image",
+    "icon": "chartBubble"
+  },
+  "options": {},
+  "attributes": {
+    "url": {
+      "type": "string"
+    },
+    "target": {
+      "type": "enumeration",
+      "enum": [
+        "_blank",
+        "_top",
+        "_self",
+        "_parent"
+      ]
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "startAt": {
+      "type": "datetime"
+    },
+    "endAt": {
+      "type": "datetime"
+    }
+  },
+  "config": {}
+}

@@ -440,6 +440,72 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiBannerBanner extends Struct.CollectionTypeSchema {
+  collectionName: 'banners';
+  info: {
+    displayName: 'Banner';
+    pluralName: 'banners';
+    singularName: 'banner';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    endAt: Schema.Attribute.DateTime;
+    image: Schema.Attribute.Component<'blocks.image', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::banner.banner'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    startAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    zone: Schema.Attribute.DynamicZone<['blocks.image', 'blocks.rich-text']>;
+  };
+}
+
+export interface ApiContentSlotContentSlot extends Struct.CollectionTypeSchema {
+  collectionName: 'content_slots';
+  info: {
+    displayName: 'Content-slot';
+    pluralName: 'content-slots';
+    singularName: 'content-slot';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::content-slot.content-slot'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    position: Schema.Attribute.Enumeration<['home-top', 'home-bottom']>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    zone: Schema.Attribute.DynamicZone<
+      ['blocks.image', 'blocks.rich-text', 'blocks.banner']
+    >;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -698,6 +764,7 @@ export interface PluginUploadFile extends Struct.CollectionTypeSchema {
   };
   attributes: {
     alternativeText: Schema.Attribute.Text;
+    blurDataURL: Schema.Attribute.Text;
     caption: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -951,6 +1018,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::banner.banner': ApiBannerBanner;
+      'api::content-slot.content-slot': ApiContentSlotContentSlot;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

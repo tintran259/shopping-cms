@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "content_slots",
+  "info": {
+    "singularName": "content-slot",
+    "pluralName": "content-slots",
+    "displayName": "Content-slot"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "position": {
+      "type": "enumeration",
+      "enum": [
+        "home-top",
+        "home-bottom"
+      ]
+    },
+    "description": {
+      "type": "text"
+    },
+    "zone": {
+      "type": "dynamiczone",
+      "components": [
+        "blocks.image",
+        "blocks.rich-text",
+        "blocks.banner"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_richtext_rich_texts",
+  "info": {
+    "displayName": "RichText",
+    "icon": "discuss"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "customField",
+      "customField": "global::tiptap"
+    },
+    "startAt": {
+      "type": "datetime"
+    },
+    "endAt": {
+      "type": "datetime"
+    }
+  },
+  "config": {}
+}

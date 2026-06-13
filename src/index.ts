@@ -1,4 +1,4 @@
-// import type { Core } from '@strapi/strapi';
+import type { Core } from '@strapi/strapi';
 
 export default {
   /**
@@ -7,7 +7,15 @@ export default {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/* { strapi }: { strapi: Core.Strapi } */) {},
+  register({ strapi }: { strapi: Core.Strapi }) {
+    // Register the "tiptap" global custom field (uid: global::tiptap).
+    // The underlying storage type must match the admin registration in src/admin/app.tsx.
+    strapi.customFields.register({
+      name: 'tiptap',
+      // Stores a per-device document: { desktop, tablet, mobile } as JSON.
+      type: 'json',
+    });
+  },
 
   /**
    * An asynchronous bootstrap function that runs before

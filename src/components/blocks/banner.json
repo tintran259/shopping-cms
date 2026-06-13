@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_blocks_banners",
+  "info": {
+    "displayName": "Banner"
+  },
+  "options": {},
+  "attributes": {
+    "banner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::banner.banner"
+    }
+  },
+  "config": {}
+}
