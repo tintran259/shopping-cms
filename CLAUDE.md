@@ -60,28 +60,41 @@ Strapi is convention-driven; understanding the layout matters more than any sing
 Content scheduling (time-window visibility):
 
 - `startAt`/`endAt` (datetime) fields on the **Banner** entry and on the **blocks** components define an
-  active window (`startAt <= now <= endAt`, either bound optional). The filtering is done **server-side** so
-  the storefront only receives active content.
-- `src/utils/schedule.ts` — `activeEntryFilters(nowISO)` (entry-level Strapi filter) and `stripInactive(data)`
-  (recursively drops out-of-window dynamic-zone blocks / nulls inactive single components).
-- `src/api/banner/controllers/banner.ts` overrides `find` (injects the entry filter + strips components) and
-  `findOne` (strips components). Reuse this pattern for other content types. REST only — GraphQL would need a
-  separate resolver.
+  active window (`startAt <= now <= endAt`, either bound optional). Filtering is done **server-side** in the
+  controllers.
+- `src/utils/schedule.ts`:
+  - `activeEntryFilters(nowISO)` — entry-level Strapi filter (hides not-yet-started / expired entries).
+  - `stripInactive(data)` — drops blocks outside the window (both upcoming AND expired). Used by the banner controller.
+  - `stripExpired(data)` — drops **only** expired blocks (`endAt < now`); keeps active **and upcoming** blocks
+    (with their `startAt`/`endAt`) so the storefront can reveal/hide them **live on the client**. Used by the
+    `content-slot` and `landing-page` controllers.
+- `src/api/banner/controllers/banner.ts` overrides `find` (entry filter + `stripInactive`) and `findOne`.
+  `content-slot` / `landing-page` controllers apply `stripExpired`. REST only.
 - Field names are `startAt`/`endAt` (camelCase, columns `start_at`/`end_at`). Do NOT use `start`/`end` —
-  they are reserved SQL words. Keep entry and component field names identical so the cron sees both.
+  they are reserved SQL words.
 
-Cache invalidation for scheduling (so start/end take effect on a cached storefront):
+How scheduling reaches the storefront (cache + on-demand invalidation):
 
-- `src/utils/revalidate.ts` — `triggerRevalidate()` POSTs to `STOREFRONT_REVALIDATE_URL` (header
-  `x-revalidate-secret`); no-ops when the env var is unset.
-- `src/api/banner/content-types/banner/lifecycles.ts` — revalidate on banner create/update/delete
-  (**editorial** changes).
-- `config/cron-tasks.ts` (+ `cron` enabled in `config/server.ts`) — every minute, detects a `start_at`/`end_at`
-  boundary crossed in the last ~70s across all scheduled tables and revalidates (**time** boundaries). ⚠️ The
-  node process runs in a non-UTC TZ, so the cron compares against `now() at time zone 'UTC'` (columns are
-  `timestamp without time zone` holding UTC) — do not compare with JS `Date` bounds (timezone skew).
-- Env: `STOREFRONT_REVALIDATE_URL`, `REVALIDATE_SECRET`, `CRON_ENABLED`. `TZ=Asia/Ho_Chi_Minh` sets the server
-  process timezone (logs only; datetimes are still stored UTC and the cron compares in UTC).
+- The storefront caches CMS reads in the Next.js Data Cache, tagged: `cms` (catch-all), `slot:<position>`,
+  `landing:<slug>`, `banner:<docId>`. Pages are ISR. Freshness comes from on-demand invalidation:
+- `src/utils/revalidate.ts` — `triggerRevalidate(strapi, reason, tags)` POSTs `{ tags }` to
+  `STOREFRONT_REVALIDATE_URL` with header `x-revalidate-secret`. The storefront's `/api/revalidate` runs
+  `revalidateTag` (Data Cache) **and** `revalidatePath` (prerendered route HTML — a tag alone won't
+  regenerate a static page). No-ops when the URL env is unset.
+- **Editorial** changes → lifecycle hooks `src/api/{content-slot,landing-page,banner}/content-types/*/lifecycles.ts`
+  call `triggerRevalidate` with the targeted tag.
+- **Time** boundaries (`startAt`/`endAt`) → `config/cron-tasks.ts` task `revalidateOnScheduleBoundary` (every
+  minute) detects a `start_at`/`end_at` crossed in the last ~70s across scheduled tables and revalidates `cms`.
+  Compares against `now() at time zone <PROCESS_TZ>` because the columns hold wall-clock in that zone.
+- `config/cron-tasks.ts` also has **`unpublishExpiredEntries`** — every minute, auto-unpublishes published
+  entries whose `endAt` passed, for any content type with an `endAt` datetime + `draftAndPublish`. Env:
+  `CRON_ENABLED`, `STOREFRONT_REVALIDATE_URL`, `REVALIDATE_SECRET`.
+- The storefront also runs **client-side gating** (`ScheduledBlock`) so blocks appear/disappear at the exact
+  `startAt`/`endAt` on already-open tabs; cache invalidation handles new requests / SEO. Invalidation is
+  stale-while-revalidate (fresh within ~1–2 requests).
+- TZ: the Node process runs with `TZ=Asia/Ho_Chi_Minh`; the `pg` driver stores/reads `timestamp without time
+  zone` columns as wall-clock in that zone, and Strapi serializes them to correct absolute (UTC) instants over
+  the API. Admin-set times round-trip correctly; comparisons use absolute instants.
 - `src/admin/components/SchedulePanel.tsx` is a Content Manager **edit-view side panel** (right column, next
   to Publish), registered via `app.getPlugin('content-manager').apis.addEditViewSidePanel([SchedulePanel])` in
   `src/admin/app.tsx`. A side panel is a function returning `{ title, content }` (or `null`); it renders the

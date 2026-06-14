@@ -27,7 +27,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { TextStyle, Color, FontSize } from '@tiptap/extension-text-style';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
-import Image from '@tiptap/extension-image';
+import { ResizableImage } from './ResizableImage';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import { TableKit } from '@tiptap/extension-table';
@@ -504,10 +504,32 @@ const MenuBar = ({
       </Group>
 
       <Group>
-        {btn(<AlignLeftIcon />, editor.isActive({ textAlign: 'left' }), () => editor.chain().focus().setTextAlign('left').run(), 'Căn trái')}
-        {btn(<AlignCenterIcon />, editor.isActive({ textAlign: 'center' }), () => editor.chain().focus().setTextAlign('center').run(), 'Căn giữa')}
-        {btn(<AlignRightIcon />, editor.isActive({ textAlign: 'right' }), () => editor.chain().focus().setTextAlign('right').run(), 'Căn phải')}
-        {btn(<AlignJustifyIcon />, editor.isActive({ textAlign: 'justify' }), () => editor.chain().focus().setTextAlign('justify').run(), 'Căn đều')}
+        {(() => {
+          // When an image node is selected, align the image (updates its `align` attr);
+          // otherwise fall back to text alignment on paragraph/heading.
+          const imgSelected = editor.isActive('image');
+          const imgAlign = (editor.getAttributes('image').align as string) || 'left';
+          const align = (dir: 'left' | 'center' | 'right') =>
+            imgSelected
+              ? editor.chain().focus().updateAttributes('image', { align: dir }).run()
+              : editor.chain().focus().setTextAlign(dir).run();
+          const activeFor = (dir: 'left' | 'center' | 'right') =>
+            imgSelected ? imgAlign === dir : editor.isActive({ textAlign: dir });
+          return (
+            <>
+              {btn(<AlignLeftIcon />, activeFor('left'), () => align('left'), 'Căn trái')}
+              {btn(<AlignCenterIcon />, activeFor('center'), () => align('center'), 'Căn giữa')}
+              {btn(<AlignRightIcon />, activeFor('right'), () => align('right'), 'Căn phải')}
+              {btn(
+                <AlignJustifyIcon />,
+                !imgSelected && editor.isActive({ textAlign: 'justify' }),
+                () => editor.chain().focus().setTextAlign('justify').run(),
+                'Căn đều',
+                imgSelected
+              )}
+            </>
+          );
+        })()}
       </Group>
 
       <Group>
@@ -767,7 +789,7 @@ const TiptapInput = React.forwardRef<HTMLDivElement, TiptapInputProps>((props, r
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Subscript,
       Superscript,
-      Image.configure({ inline: false }),
+      ResizableImage.configure({ inline: false }),
       TableKit.configure({ table: { resizable: true } }),
       CharacterCount,
       Placeholder.configure({ placeholder: 'Nhập nội dung…' }),

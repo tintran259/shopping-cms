@@ -20,13 +20,13 @@ export interface BlocksCarousel extends Struct.ComponentSchema {
     autoplay: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     endAt: Schema.Attribute.DateTime;
     interval: Schema.Attribute.Integer &
-    Schema.Attribute.SetMinMax<
-      {
-        min: 0;
-      },
-      number
-    > &
-    Schema.Attribute.DefaultTo<5000>;
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<5000>;
     loop: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     slides: Schema.Attribute.Component<'blocks.slide', true>;
     startAt: Schema.Attribute.DateTime;
@@ -42,7 +42,7 @@ export interface BlocksImage extends Struct.ComponentSchema {
   attributes: {
     endAt: Schema.Attribute.DateTime;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
-    Schema.Attribute.Required;
+      Schema.Attribute.Required;
     startAt: Schema.Attribute.DateTime;
     target: Schema.Attribute.Enumeration<
       ['_blank', '_top', '_self', '_parent']
@@ -59,7 +59,7 @@ export interface BlocksRichText extends Struct.ComponentSchema {
   };
   attributes: {
     content: Schema.Attribute.JSON &
-    Schema.Attribute.CustomField<'global::tiptap'>;
+      Schema.Attribute.CustomField<'global::tiptap'>;
     endAt: Schema.Attribute.DateTime;
     startAt: Schema.Attribute.DateTime;
   };
@@ -75,7 +75,7 @@ export interface BlocksSlide extends Struct.ComponentSchema {
     caption: Schema.Attribute.String;
     endAt: Schema.Attribute.DateTime;
     image: Schema.Attribute.Media<'images' | 'videos'> &
-    Schema.Attribute.Required;
+      Schema.Attribute.Required;
     startAt: Schema.Attribute.DateTime;
     target: Schema.Attribute.Enumeration<
       ['_blank', '_self', '_top', '_parent']

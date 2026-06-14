@@ -54,3 +54,35 @@ export const stripInactive = <T>(value: T, nowMs: number = Date.now()): T => {
   }
   return value;
 };
+
+/** True if the node's endAt has already passed (startAt is ignored). */
+const isExpired = (node: AnyObj, nowMs: number): boolean => {
+  const end = typeof node.endAt === 'string' ? Date.parse(node.endAt) : NaN;
+  return !Number.isNaN(end) && nowMs > end;
+};
+
+/**
+ * Like `stripInactive`, but only removes nodes whose `endAt` has already passed.
+ * Upcoming nodes (startAt in the future) are KEPT — with their startAt/endAt —
+ * so the storefront can reveal/hide them live on the client at the exact moment,
+ * without a reload. Expired content is still dropped here for SEO/cleanliness.
+ */
+export const stripExpired = <T>(value: T, nowMs: number = Date.now()): T => {
+  if (Array.isArray(value)) {
+    return value
+      .filter((item) => !(hasSchedule(item) && isExpired(item, nowMs)))
+      .map((item) => stripExpired(item, nowMs)) as unknown as T;
+  }
+  if (isObject(value)) {
+    const out: AnyObj = {};
+    for (const [key, child] of Object.entries(value)) {
+      if (hasSchedule(child) && isExpired(child, nowMs)) {
+        out[key] = null;
+      } else {
+        out[key] = stripExpired(child, nowMs);
+      }
+    }
+    return out as unknown as T;
+  }
+  return value;
+};
