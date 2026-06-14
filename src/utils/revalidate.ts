@@ -15,6 +15,25 @@
  *   - `landing:<slug>` → a landing page
  *   - `banner:<docId>` → a banner
  */
+/**
+ * Map a content type + the affected document to the storefront cache tags to
+ * revalidate. Banners are embedded across many slots/pages, so they (and the
+ * single-type / unknown cases) use the catch-all `cms` tag.
+ */
+export function tagsForDocument(uid: string, result: any): string[] {
+  const doc = Array.isArray(result) ? result[0] : (result?.entries?.[0] ?? result);
+  switch (uid) {
+    case 'api::content-slot.content-slot':
+      return doc?.position ? ['cms', `slot:${doc.position}`] : ['cms'];
+    case 'api::landing-page.landing-page':
+      return doc?.slug ? ['cms', `landing:${doc.slug}`] : ['cms'];
+    case 'api::banner.banner':
+      return doc?.documentId ? ['cms', `banner:${doc.documentId}`] : ['cms'];
+    default:
+      return ['cms'];
+  }
+}
+
 export const triggerRevalidate = async (
   strapi: any,
   reason: string,

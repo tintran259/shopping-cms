@@ -1,4 +1,5 @@
 import { triggerRevalidate } from '../src/utils/revalidate';
+import { activeEntryFilters } from '../src/utils/schedule';
 
 // Cron runs every minute; look back slightly more than the interval so a boundary
 // is never missed between two runs.
@@ -63,45 +64,75 @@ export default {
   },
 
   /**
-   * Every minute, auto-UNPUBLISH any entry whose `endAt` has passed — generically,
-   * for EVERY content type that opts into entry-level scheduling (has an `endAt`
-   * datetime + draftAndPublish). Not hardcoded to banner.
+   * Every minute, reconcile Draft/Publish state to the scheduling window — generically,
+   * for EVERY content type that opts in (draftAndPublish + a startAt or endAt datetime).
+   * Not hardcoded to banner.
    *
-   * Unpublish (not delete) is intentional: the entry leaves the storefront but its
-   * data is kept and can be re-published. Component-level scheduling (blocks inside
-   * dynamic zones) is handled by `stripExpired` in the controllers + client gating.
+   * Rule (matches the agreed truth table): an entry is **active** when
+   * `(startAt null OR startAt <= now) AND (endAt null OR endAt >= now)`.
+   *   - Published but NOT active (start in the future OR end passed) → unpublish.
+   *   - Draft, HAS a schedule, and IS active → publish (so it comes back when startAt arrives).
+   *
+   * A draft with no schedule (both null) is never auto-published — manual content is left
+   * alone. Comparisons go through the Document Service on ISO strings → timezone-safe.
+   * Unpublish keeps the data (re-publishable). The Document Service middleware
+   * (src/index.ts) revalidates the storefront on each publish/unpublish.
    */
-  unpublishExpiredEntries: {
+  reconcileScheduledPublish: {
     task: async ({ strapi }: { strapi: any }) => {
       const nowISO = new Date().toISOString();
+      // Out-of-window = start still in the future OR end already passed.
+      const outOfWindow = { $or: [{ startAt: { $gt: nowISO } }, { endAt: { $lt: nowISO } }] };
 
       const scheduledTypes = Object.keys(strapi.contentTypes).filter((uid) => {
         if (!uid.startsWith('api::')) return false;
         const ct = strapi.contentTypes[uid];
-        return Boolean(ct?.options?.draftAndPublish) && ct?.attributes?.endAt?.type === 'datetime';
+        if (!ct?.options?.draftAndPublish) return false;
+        return ct?.attributes?.startAt?.type === 'datetime' || ct?.attributes?.endAt?.type === 'datetime';
       });
 
-      let unpublishedAny = false;
       for (const uid of scheduledTypes) {
         try {
-          const expired = await strapi.documents(uid).findMany({
+          const docs = strapi.documents(uid);
+
+          // 1) Published but out of window → unpublish.
+          const expired = await docs.findMany({
             status: 'published',
-            filters: { endAt: { $lt: nowISO } },
+            filters: outOfWindow,
             fields: ['documentId'],
             limit: 1000,
           });
           for (const doc of expired) {
-            await strapi.documents(uid).unpublish({ documentId: doc.documentId });
-            unpublishedAny = true;
-            strapi.log.info(`[cron] unpublished expired ${uid} ${doc.documentId} (endAt < ${nowISO})`);
+            await docs.unpublish({ documentId: doc.documentId });
+            strapi.log.info(`[cron] unpublish ${uid} ${doc.documentId} (out of window)`);
+          }
+
+          // 2) Draft, scheduled, and in window → publish. Skip docs that already have a
+          //    published version (their draft twin also matches the query).
+          const publishedIds = new Set<string>(
+            (await docs.findMany({ status: 'published', fields: ['documentId'], limit: 1000 })).map(
+              (d: any) => d.documentId
+            )
+          );
+          const dueToPublish = await docs.findMany({
+            status: 'draft',
+            filters: {
+              $and: [
+                activeEntryFilters(nowISO),
+                { $or: [{ startAt: { $notNull: true } }, { endAt: { $notNull: true } }] },
+              ],
+            },
+            fields: ['documentId'],
+            limit: 1000,
+          });
+          for (const doc of dueToPublish) {
+            if (publishedIds.has(doc.documentId)) continue;
+            await docs.publish({ documentId: doc.documentId });
+            strapi.log.info(`[cron] publish ${uid} ${doc.documentId} (entered window)`);
           }
         } catch (err) {
-          strapi.log.warn(`[cron] unpublish-expired failed for ${uid}: ${(err as Error).message}`);
+          strapi.log.warn(`[cron] reconcile failed for ${uid}: ${(err as Error).message}`);
         }
-      }
-
-      if (unpublishedAny) {
-        await triggerRevalidate(strapi, 'expired entries unpublished', ['cms']);
       }
     },
     options: {

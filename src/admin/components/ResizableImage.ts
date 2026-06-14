@@ -162,19 +162,29 @@ export const ResizableImage = Image.extend({
         document.addEventListener('mouseup', onUp);
       });
 
-      // First decode: if a freshly-inserted image has no stored size yet, capture its
-      // natural dimensions so width/height are always available to the storefront.
+      // On decode, backfill any missing size from the image's natural dimensions so
+      // width AND height are always present for the storefront — this also "converts"
+      // older images that were saved with width only (height was `auto`).
       img.addEventListener('load', () => {
-        if (currentNode.attrs.width || currentNode.attrs.height) return;
         if (!img.naturalWidth || !img.naturalHeight) return;
         if (typeof getPos !== 'function') return;
+
+        const haveW = toNum(currentNode.attrs.width);
+        const haveH = toNum(currentNode.attrs.height);
+        if (haveW && haveH) return; // already complete
+
+        const ratio = img.naturalWidth / img.naturalHeight;
+        const width = haveW ?? img.naturalWidth;
+        const height = haveH ?? Math.round(width / ratio);
+        if (width === haveW && height === haveH) return;
+
         const pos = getPos();
         if (typeof pos !== 'number') return;
         editor.view.dispatch(
           editor.view.state.tr.setNodeMarkup(pos, undefined, {
             ...currentNode.attrs,
-            width: img.naturalWidth,
-            height: img.naturalHeight,
+            width,
+            height,
           })
         );
       });

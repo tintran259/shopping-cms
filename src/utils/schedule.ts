@@ -13,6 +13,22 @@ export const activeEntryFilters = (nowISO: string) => ({
   ],
 });
 
+/**
+ * Is a node active "now"?  active ⇔ (startAt null OR startAt <= now) AND (endAt null OR endAt >= now).
+ * Operates on ISO strings → timezone-safe (epoch comparison, independent of the process TZ).
+ */
+export const isActiveNow = (
+  startAt?: string | null,
+  endAt?: string | null,
+  nowMs: number = Date.now()
+): boolean => {
+  const start = startAt ? Date.parse(startAt) : NaN;
+  const end = endAt ? Date.parse(endAt) : NaN;
+  if (!Number.isNaN(start) && nowMs < start) return false;
+  if (!Number.isNaN(end) && nowMs > end) return false;
+  return true;
+};
+
 type AnyObj = Record<string, unknown>;
 
 const isObject = (v: unknown): v is AnyObj => typeof v === 'object' && v !== null && !Array.isArray(v);
@@ -21,13 +37,12 @@ const isObject = (v: unknown): v is AnyObj => typeof v === 'object' && v !== nul
 const hasSchedule = (v: unknown): v is AnyObj => isObject(v) && ('startAt' in v || 'endAt' in v);
 
 /** Evaluate the window for a node that has startAt/endAt. */
-const inWindow = (node: AnyObj, nowMs: number): boolean => {
-  const start = typeof node.startAt === 'string' ? Date.parse(node.startAt) : NaN;
-  const end = typeof node.endAt === 'string' ? Date.parse(node.endAt) : NaN;
-  if (!Number.isNaN(start) && nowMs < start) return false;
-  if (!Number.isNaN(end) && nowMs > end) return false;
-  return true;
-};
+const inWindow = (node: AnyObj, nowMs: number): boolean =>
+  isActiveNow(
+    typeof node.startAt === 'string' ? node.startAt : null,
+    typeof node.endAt === 'string' ? node.endAt : null,
+    nowMs
+  );
 
 /**
  * Recursively remove out-of-window components from an API response:

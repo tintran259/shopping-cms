@@ -12,31 +12,52 @@ import { unstable_useContentManagerContext as useContentManagerContext } from '@
  * declare both fields.
  */
 
-const ScheduleField = ({ name, label }: { name: string; label: string }) => {
+const ScheduleField = ({
+  name,
+  label,
+  error,
+}: {
+  name: string;
+  label: string;
+  error?: string;
+}) => {
   const field = useField<string | null>(name);
   const value = field.value ? new Date(field.value) : undefined;
 
   return (
-    <Field.Root name={name} error={field.error}>
+    <Field.Root name={name} error={error || field.error}>
       <Field.Label>{label}</Field.Label>
       <DateTimePicker
         value={value}
         onChange={(date?: Date) => field.onChange(name, date ? date.toISOString() : null)}
         onClear={() => field.onChange(name, null)}
       />
+      <Field.Error />
     </Field.Root>
   );
 };
 
-const ScheduleContent = () => (
-  <Flex direction="column" alignItems="stretch" gap={4} width="100%">
-    <ScheduleField name="startAt" label="Bắt đầu" />
-    <ScheduleField name="endAt" label="Kết thúc" />
-    <Typography variant="pi" textColor="neutral500">
-      Để trống = không giới hạn. Giờ theo múi giờ trình duyệt.
-    </Typography>
-  </Flex>
-);
+const ScheduleContent = () => {
+  const start = useField<string | null>('startAt');
+  const end = useField<string | null>('endAt');
+
+  // Mirror the server rule: startAt must be strictly before endAt.
+  const invalid =
+    !!start.value && !!end.value && Date.parse(start.value) >= Date.parse(end.value);
+  const windowError = invalid ? 'Bắt đầu phải trước Kết thúc' : undefined;
+
+  return (
+    <Flex direction="column" alignItems="stretch" gap={4} width="100%">
+      <ScheduleField name="startAt" label="Bắt đầu" />
+      <ScheduleField name="endAt" label="Kết thúc" error={windowError} />
+      <Typography variant="pi" textColor={invalid ? 'danger600' : 'neutral500'}>
+        {invalid
+          ? 'Khoảng thời gian không hợp lệ — không lưu/đăng được.'
+          : 'Để trống = không giới hạn. Giờ theo múi giờ trình duyệt.'}
+      </Typography>
+    </Flex>
+  );
+};
 
 const SchedulePanel = () => {
   const ctx = useContentManagerContext();
