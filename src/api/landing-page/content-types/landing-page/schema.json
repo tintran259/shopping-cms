@@ -29,7 +29,8 @@
         "blocks.rich-text",
         "blocks.image",
         "blocks.carousel",
-        "blocks.banner"
+        "blocks.banner",
+        "blocks.content-grid"
       ]
     }
   }

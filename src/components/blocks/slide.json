@@ -30,6 +30,17 @@
         "_parent"
       ]
     },
+    "objectFit": {
+      "type": "enumeration",
+      "default": "cover",
+      "enum": [
+        "cover",
+        "contain",
+        "fill",
+        "none",
+        "scale-down"
+      ]
+    },
     "startAt": {
       "type": "datetime"
     },

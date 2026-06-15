@@ -57,6 +57,11 @@ function buildPopulate(
   let found = false;
 
   for (const [key, attr] of Object.entries(attributes || {})) {
+    // Skip Strapi's auto-managed self-relations (i18n localizations, audit fields):
+    // they would make every type a spurious "parent" of itself.
+    if (key === 'localizations' || key === 'createdBy' || key === 'updatedBy') {
+      continue;
+    }
     if (attr.type === 'relation' && attr.target === targetUid) {
       populate[key] = true;
       found = true;

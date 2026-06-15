@@ -469,7 +469,9 @@ export interface ApiBannerBanner extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    zone: Schema.Attribute.DynamicZone<['blocks.rich-text', 'blocks.carousel']>;
+    zone: Schema.Attribute.DynamicZone<
+      ['blocks.rich-text', 'blocks.carousel', 'blocks.content-grid']
+    >;
   };
 }
 
@@ -501,7 +503,13 @@ export interface ApiContentSlotContentSlot extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     zone: Schema.Attribute.DynamicZone<
-      ['blocks.image', 'blocks.rich-text', 'blocks.banner', 'blocks.carousel']
+      [
+        'blocks.image',
+        'blocks.rich-text',
+        'blocks.banner',
+        'blocks.carousel',
+        'blocks.content-grid',
+      ]
     >;
   };
 }
@@ -538,6 +546,39 @@ export interface ApiGlobalSeoSettingGlobalSeoSetting
   };
 }
 
+export interface ApiGridCardGridCard extends Struct.CollectionTypeSchema {
+  collectionName: 'grid_cards';
+  info: {
+    displayName: 'Grid card';
+    pluralName: 'grid-cards';
+    singularName: 'grid-card';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    endAt: Schema.Attribute.DateTime;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::grid-card.grid-card'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    startAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    zone: Schema.Attribute.DynamicZone<
+      ['blocks.image', 'blocks.rich-text', 'blocks.banner', 'blocks.carousel']
+    >;
+  };
+}
+
 export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
   collectionName: 'landing_pages';
   info: {
@@ -566,7 +607,13 @@ export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     zone: Schema.Attribute.DynamicZone<
-      ['blocks.rich-text', 'blocks.image', 'blocks.carousel', 'blocks.banner']
+      [
+        'blocks.rich-text',
+        'blocks.image',
+        'blocks.carousel',
+        'blocks.banner',
+        'blocks.content-grid',
+      ]
     >;
   };
 }
@@ -1086,6 +1133,7 @@ declare module '@strapi/strapi' {
       'api::banner.banner': ApiBannerBanner;
       'api::content-slot.content-slot': ApiContentSlotContentSlot;
       'api::global-seo-setting.global-seo-setting': ApiGlobalSeoSettingGlobalSeoSetting;
+      'api::grid-card.grid-card': ApiGridCardGridCard;
       'api::landing-page.landing-page': ApiLandingPageLandingPage;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

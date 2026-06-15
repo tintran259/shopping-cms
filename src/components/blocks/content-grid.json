@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_blocks_content_grids",
+  "info": {
+    "displayName": "Content grid",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "desktopColumns": {
+      "type": "integer",
+      "default": 3,
+      "min": 1,
+      "max": 12
+    },
+    "tabletColumns": {
+      "type": "integer",
+      "default": 2,
+      "min": 1,
+      "max": 12
+    },
+    "mobileColumns": {
+      "type": "integer",
+      "default": 1,
+      "min": 1,
+      "max": 12
+    },
+    "items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::grid-card.grid-card"
+    },
+    "startAt": {
+      "type": "datetime"
+    },
+    "endAt": {
+      "type": "datetime"
+    }
+  },
+  "config": {}
+}

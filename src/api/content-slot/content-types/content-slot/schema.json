@@ -31,7 +31,8 @@
         "blocks.image",
         "blocks.rich-text",
         "blocks.banner",
-        "blocks.carousel"
+        "blocks.carousel",
+        "blocks.content-grid"
       ]
     }
   }

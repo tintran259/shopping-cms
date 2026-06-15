@@ -10,14 +10,22 @@
       "type": "boolean",
       "default": true
     },
+    "loop": {
+      "type": "boolean",
+      "default": true
+    },
     "interval": {
       "type": "integer",
       "default": 5000,
       "min": 0
     },
-    "loop": {
-      "type": "boolean",
-      "default": true
+    "width": {
+      "type": "string",
+      "default": "100%"
+    },
+    "height": {
+      "type": "string",
+      "default": "auto"
     },
     "slides": {
       "type": "component",

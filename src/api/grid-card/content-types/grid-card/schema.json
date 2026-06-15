@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "banners",
+  "collectionName": "grid_cards",
   "info": {
-    "singularName": "banner",
-    "pluralName": "banners",
-    "displayName": "Banner"
+    "singularName": "grid-card",
+    "pluralName": "grid-cards",
+    "displayName": "Grid card"
   },
   "options": {
     "draftAndPublish": true
@@ -15,20 +15,13 @@
       "type": "string",
       "required": true
     },
-    "description": {
-      "type": "text"
-    },
-    "image": {
-      "type": "component",
-      "component": "blocks.image",
-      "repeatable": false
-    },
     "zone": {
       "type": "dynamiczone",
       "components": [
+        "blocks.image",
         "blocks.rich-text",
-        "blocks.carousel",
-        "blocks.content-grid"
+        "blocks.banner",
+        "blocks.carousel"
       ]
     },
     "startAt": {

@@ -128,6 +128,7 @@ export default {
       'api::content-slot.content-slot',
       'api::landing-page.landing-page',
       'api::banner.banner',
+      'api::grid-card.grid-card',
       'api::global-seo-setting.global-seo-setting',
     ];
 
