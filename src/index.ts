@@ -38,6 +38,13 @@ export default {
       type: 'json',
     });
 
+    // "Color" custom field (uid: global::color) — stored as a plain string
+    // (hex / rgba / CSS color name). Admin input registered in src/admin/app.tsx.
+    strapi.customFields.register({
+      name: 'color',
+      type: 'string',
+    });
+
     // Revalidate the storefront on ANY content mutation — crucially including
     // `publish`/`unpublish`, which do NOT fire entity lifecycle hooks in Strapi 5.
     // A Document Service middleware is the reliable place to catch them all.
@@ -129,6 +136,7 @@ export default {
       'api::landing-page.landing-page',
       'api::banner.banner',
       'api::grid-card.grid-card',
+      'api::theme.theme',
       'api::global-seo-setting.global-seo-setting',
     ];
 

@@ -618,6 +618,203 @@ export interface ApiLandingPageLandingPage extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiThemeTheme extends Struct.CollectionTypeSchema {
+  collectionName: 'themes';
+  info: {
+    displayName: 'Theme';
+    pluralName: 'themes';
+    singularName: 'theme';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    accent: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#f59e0b'>;
+    announcementBarBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#111827'>;
+    announcementBarText: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    borderColor: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#e5e7eb'>;
+    btnDisabledBg: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#e5e7eb'>;
+    btnPrimaryBg: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#2563eb'>;
+    btnPrimaryHover: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#1d4ed8'>;
+    btnPrimaryText: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    btnSecondaryBg: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    btnSecondaryHover: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#f3f4f6'>;
+    btnSecondaryText: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#111827'>;
+    cardBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    cartBadgeBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#e11d48'>;
+    cartBadgeText: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    discountBadgeBg: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#e11d48'>;
+    discountBadgeText: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    divider: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#f3f4f6'>;
+    error: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#dc2626'>;
+    footerBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#111827'>;
+    footerBorder: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#374151'>;
+    footerLink: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#9ca3af'>;
+    footerLinkHover: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    footerText: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#d1d5db'>;
+    freeShipBadge: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#16a34a'>;
+    headerBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    headerText: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#111827'>;
+    headingColor: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#111827'>;
+    info: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#2563eb'>;
+    inputBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    inputBorder: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#d1d5db'>;
+    inputFocusBorder: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#2563eb'>;
+    inputPlaceholder: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#9ca3af'>;
+    inputText: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#111827'>;
+    inStock: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#16a34a'>;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    linkColor: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#2563eb'>;
+    linkHover: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#1d4ed8'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::theme.theme'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    navLink: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#374151'>;
+    navLinkHover: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#2563eb'>;
+    outOfStock: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#dc2626'>;
+    overlayBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'rgba(17,24,39,0.5)'>;
+    pageBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    price: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#111827'>;
+    primary: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#2563eb'>;
+    primaryHover: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#1d4ed8'>;
+    publishedAt: Schema.Attribute.DateTime;
+    rating: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#f59e0b'>;
+    salePrice: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#e11d48'>;
+    searchBarBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#f3f4f6'>;
+    secondary: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#64748b'>;
+    secondaryHover: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#475569'>;
+    sidebarBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#f9fafb'>;
+    success: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#16a34a'>;
+    textMuted: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#9ca3af'>;
+    textOnPrimary: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    textPrimary: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#111827'>;
+    textSecondary: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#4b5563'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    warning: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#f59e0b'>;
+    wishlistColor: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#e11d48'>;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1135,6 +1332,7 @@ declare module '@strapi/strapi' {
       'api::global-seo-setting.global-seo-setting': ApiGlobalSeoSettingGlobalSeoSetting;
       'api::grid-card.grid-card': ApiGridCardGridCard;
       'api::landing-page.landing-page': ApiLandingPageLandingPage;
+      'api::theme.theme': ApiThemeTheme;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

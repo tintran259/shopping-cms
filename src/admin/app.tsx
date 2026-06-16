@@ -1,5 +1,6 @@
 import type { StrapiApp } from '@strapi/strapi/admin';
 import TiptapIcon from './components/TiptapIcon';
+import ColorFieldIcon from './components/ColorFieldIcon';
 import SchedulePanel from './components/SchedulePanel';
 
 export default {
@@ -22,6 +23,24 @@ export default {
       icon: TiptapIcon,
       components: {
         Input: async () => import('./components/TiptapInput'),
+      },
+    });
+
+    app.customFields.register({
+      name: 'color',
+      // global custom field → uid `global::color`. Stores a CSS color string.
+      type: 'string',
+      intlLabel: {
+        id: 'color.label',
+        defaultMessage: 'Color',
+      },
+      intlDescription: {
+        id: 'color.description',
+        defaultMessage: 'Pick a color (hex / rgba / CSS name)',
+      },
+      icon: ColorFieldIcon,
+      components: {
+        Input: async () => import('./components/ColorPickerInput'),
       },
     });
   },

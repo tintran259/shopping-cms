@@ -1,0 +1,308 @@
+{
+  "kind": "collectionType",
+  "collectionName": "themes",
+  "info": {
+    "singularName": "theme",
+    "pluralName": "themes",
+    "displayName": "Theme"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": false
+    },
+    "primary": {
+      "type": "customField",
+      "default": "#2563eb",
+      "customField": "global::color"
+    },
+    "primaryHover": {
+      "type": "customField",
+      "default": "#1d4ed8",
+      "customField": "global::color"
+    },
+    "secondary": {
+      "type": "customField",
+      "default": "#64748b",
+      "customField": "global::color"
+    },
+    "secondaryHover": {
+      "type": "customField",
+      "default": "#475569",
+      "customField": "global::color"
+    },
+    "accent": {
+      "type": "customField",
+      "default": "#f59e0b",
+      "customField": "global::color"
+    },
+    "pageBackground": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "headerBackground": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "footerBackground": {
+      "type": "customField",
+      "default": "#111827",
+      "customField": "global::color"
+    },
+    "sidebarBackground": {
+      "type": "customField",
+      "default": "#f9fafb",
+      "customField": "global::color"
+    },
+    "cardBackground": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "overlayBackground": {
+      "type": "customField",
+      "default": "rgba(17,24,39,0.5)",
+      "customField": "global::color"
+    },
+    "textPrimary": {
+      "type": "customField",
+      "default": "#111827",
+      "customField": "global::color"
+    },
+    "textSecondary": {
+      "type": "customField",
+      "default": "#4b5563",
+      "customField": "global::color"
+    },
+    "textMuted": {
+      "type": "customField",
+      "default": "#9ca3af",
+      "customField": "global::color"
+    },
+    "headingColor": {
+      "type": "customField",
+      "default": "#111827",
+      "customField": "global::color"
+    },
+    "linkColor": {
+      "type": "customField",
+      "default": "#2563eb",
+      "customField": "global::color"
+    },
+    "linkHover": {
+      "type": "customField",
+      "default": "#1d4ed8",
+      "customField": "global::color"
+    },
+    "textOnPrimary": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "headerText": {
+      "type": "customField",
+      "default": "#111827",
+      "customField": "global::color"
+    },
+    "navLink": {
+      "type": "customField",
+      "default": "#374151",
+      "customField": "global::color"
+    },
+    "navLinkHover": {
+      "type": "customField",
+      "default": "#2563eb",
+      "customField": "global::color"
+    },
+    "announcementBarBackground": {
+      "type": "customField",
+      "default": "#111827",
+      "customField": "global::color"
+    },
+    "announcementBarText": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "cartBadgeBackground": {
+      "type": "customField",
+      "default": "#e11d48",
+      "customField": "global::color"
+    },
+    "cartBadgeText": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "searchBarBackground": {
+      "type": "customField",
+      "default": "#f3f4f6",
+      "customField": "global::color"
+    },
+    "footerText": {
+      "type": "customField",
+      "default": "#d1d5db",
+      "customField": "global::color"
+    },
+    "footerLink": {
+      "type": "customField",
+      "default": "#9ca3af",
+      "customField": "global::color"
+    },
+    "footerLinkHover": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "footerBorder": {
+      "type": "customField",
+      "default": "#374151",
+      "customField": "global::color"
+    },
+    "btnPrimaryBg": {
+      "type": "customField",
+      "default": "#2563eb",
+      "customField": "global::color"
+    },
+    "btnPrimaryText": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "btnPrimaryHover": {
+      "type": "customField",
+      "default": "#1d4ed8",
+      "customField": "global::color"
+    },
+    "btnSecondaryBg": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "btnSecondaryText": {
+      "type": "customField",
+      "default": "#111827",
+      "customField": "global::color"
+    },
+    "btnSecondaryHover": {
+      "type": "customField",
+      "default": "#f3f4f6",
+      "customField": "global::color"
+    },
+    "btnDisabledBg": {
+      "type": "customField",
+      "default": "#e5e7eb",
+      "customField": "global::color"
+    },
+    "price": {
+      "type": "customField",
+      "default": "#111827",
+      "customField": "global::color"
+    },
+    "salePrice": {
+      "type": "customField",
+      "default": "#e11d48",
+      "customField": "global::color"
+    },
+    "discountBadgeBg": {
+      "type": "customField",
+      "default": "#e11d48",
+      "customField": "global::color"
+    },
+    "discountBadgeText": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "rating": {
+      "type": "customField",
+      "default": "#f59e0b",
+      "customField": "global::color"
+    },
+    "inStock": {
+      "type": "customField",
+      "default": "#16a34a",
+      "customField": "global::color"
+    },
+    "outOfStock": {
+      "type": "customField",
+      "default": "#dc2626",
+      "customField": "global::color"
+    },
+    "wishlistColor": {
+      "type": "customField",
+      "default": "#e11d48",
+      "customField": "global::color"
+    },
+    "freeShipBadge": {
+      "type": "customField",
+      "default": "#16a34a",
+      "customField": "global::color"
+    },
+    "success": {
+      "type": "customField",
+      "default": "#16a34a",
+      "customField": "global::color"
+    },
+    "warning": {
+      "type": "customField",
+      "default": "#f59e0b",
+      "customField": "global::color"
+    },
+    "error": {
+      "type": "customField",
+      "default": "#dc2626",
+      "customField": "global::color"
+    },
+    "info": {
+      "type": "customField",
+      "default": "#2563eb",
+      "customField": "global::color"
+    },
+    "borderColor": {
+      "type": "customField",
+      "default": "#e5e7eb",
+      "customField": "global::color"
+    },
+    "divider": {
+      "type": "customField",
+      "default": "#f3f4f6",
+      "customField": "global::color"
+    },
+    "inputBackground": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "inputBorder": {
+      "type": "customField",
+      "default": "#d1d5db",
+      "customField": "global::color"
+    },
+    "inputFocusBorder": {
+      "type": "customField",
+      "default": "#2563eb",
+      "customField": "global::color"
+    },
+    "inputText": {
+      "type": "customField",
+      "default": "#111827",
+      "customField": "global::color"
+    },
+    "inputPlaceholder": {
+      "type": "customField",
+      "default": "#9ca3af",
+      "customField": "global::color"
+    }
+  }
+}
