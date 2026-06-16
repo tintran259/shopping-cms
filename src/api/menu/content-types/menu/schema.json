@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "menus",
+  "info": {
+    "singularName": "menu",
+    "pluralName": "menus",
+    "displayName": "Menu"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "handle": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "position": {
+      "type": "enumeration",
+      "default": "start",
+      "enum": [
+        "start",
+        "end"
+      ]
+    },
+    "items": {
+      "type": "component",
+      "component": "nav.menu-item",
+      "repeatable": true
+    },
+    "startAt": {
+      "type": "datetime"
+    },
+    "endAt": {
+      "type": "datetime"
+    }
+  }
+}

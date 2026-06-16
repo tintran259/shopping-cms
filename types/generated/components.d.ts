@@ -130,6 +130,70 @@ export interface BlocksSlide extends Struct.ComponentSchema {
   };
 }
 
+export interface NavLink extends Struct.ComponentSchema {
+  collectionName: 'components_nav_links';
+  info: {
+    displayName: 'Link';
+    icon: 'link';
+  };
+  attributes: {
+    endAt: Schema.Attribute.DateTime;
+    highlight: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    openInNewTab: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    page: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::landing-page.landing-page'
+    >;
+    startAt: Schema.Attribute.DateTime;
+    url: Schema.Attribute.String;
+  };
+}
+
+export interface NavMenuItem extends Struct.ComponentSchema {
+  collectionName: 'components_nav_menu_items';
+  info: {
+    displayName: 'Menu item';
+    icon: 'apps';
+  };
+  attributes: {
+    children: Schema.Attribute.Component<'nav.submenu-item', true>;
+    endAt: Schema.Attribute.DateTime;
+    featuredBanner: Schema.Attribute.Relation<'oneToOne', 'api::banner.banner'>;
+    highlight: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    icon: Schema.Attribute.String;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    openInNewTab: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    page: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::landing-page.landing-page'
+    >;
+    startAt: Schema.Attribute.DateTime;
+    url: Schema.Attribute.String;
+  };
+}
+
+export interface NavSubmenuItem extends Struct.ComponentSchema {
+  collectionName: 'components_nav_submenu_items';
+  info: {
+    displayName: 'Submenu item';
+    icon: 'bulletList';
+  };
+  attributes: {
+    children: Schema.Attribute.Component<'nav.link', true>;
+    endAt: Schema.Attribute.DateTime;
+    highlight: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    openInNewTab: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    page: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::landing-page.landing-page'
+    >;
+    startAt: Schema.Attribute.DateTime;
+    url: Schema.Attribute.String;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -139,6 +203,9 @@ declare module '@strapi/strapi' {
       'blocks.image': BlocksImage;
       'blocks.rich-text': BlocksRichText;
       'blocks.slide': BlocksSlide;
+      'nav.link': NavLink;
+      'nav.menu-item': NavMenuItem;
+      'nav.submenu-item': NavSubmenuItem;
     }
   }
 }

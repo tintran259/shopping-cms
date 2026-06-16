@@ -1,0 +1,49 @@
+{
+  "collectionName": "components_nav_menu_items",
+  "info": {
+    "displayName": "Menu item",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "page": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::landing-page.landing-page"
+    },
+    "url": {
+      "type": "string"
+    },
+    "openInNewTab": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "type": "string"
+    },
+    "highlight": {
+      "type": "boolean",
+      "default": false
+    },
+    "featuredBanner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::banner.banner"
+    },
+    "startAt": {
+      "type": "datetime"
+    },
+    "endAt": {
+      "type": "datetime"
+    },
+    "children": {
+      "type": "component",
+      "component": "nav.submenu-item",
+      "repeatable": true
+    }
+  }
+}

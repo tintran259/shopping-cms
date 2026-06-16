@@ -137,6 +137,7 @@ export default {
       'api::banner.banner',
       'api::grid-card.grid-card',
       'api::theme.theme',
+      'api::menu.menu',
       'api::global-seo-setting.global-seo-setting',
     ];
 
