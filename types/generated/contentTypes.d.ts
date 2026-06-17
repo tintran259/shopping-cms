@@ -497,7 +497,9 @@ export interface ApiContentSlotContentSlot extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
-    position: Schema.Attribute.Enumeration<['home-top', 'home-bottom']>;
+    position: Schema.Attribute.Enumeration<
+      ['home-top', 'home-bottom', 'announcement-bar']
+    >;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -511,6 +513,38 @@ export interface ApiContentSlotContentSlot extends Struct.CollectionTypeSchema {
         'blocks.content-grid',
       ]
     >;
+  };
+}
+
+export interface ApiFooterFooter extends Struct.SingleTypeSchema {
+  collectionName: 'footers';
+  info: {
+    displayName: 'Footer';
+    pluralName: 'footers';
+    singularName: 'footer';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bottomLinks: Schema.Attribute.Component<'nav.link', true>;
+    columns: Schema.Attribute.Component<'nav.footer-column', true>;
+    copyright: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::footer.footer'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    socials: Schema.Attribute.Component<'nav.social-link', true>;
+    tagline: Schema.Attribute.Text;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1360,6 +1394,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::banner.banner': ApiBannerBanner;
       'api::content-slot.content-slot': ApiContentSlotContentSlot;
+      'api::footer.footer': ApiFooterFooter;
       'api::global-seo-setting.global-seo-setting': ApiGlobalSeoSettingGlobalSeoSetting;
       'api::grid-card.grid-card': ApiGridCardGridCard;
       'api::landing-page.landing-page': ApiLandingPageLandingPage;

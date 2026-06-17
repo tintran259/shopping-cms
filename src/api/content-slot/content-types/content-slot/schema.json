@@ -19,7 +19,8 @@
       "type": "enumeration",
       "enum": [
         "home-top",
-        "home-bottom"
+        "home-bottom",
+        "announcement-bar"
       ]
     },
     "description": {

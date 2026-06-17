@@ -29,6 +29,10 @@ export function tagsForDocument(uid: string, result: any): string[] {
       return doc?.slug ? ['cms', `landing:${doc.slug}`] : ['cms'];
     case 'api::banner.banner':
       return doc?.documentId ? ['cms', `banner:${doc.documentId}`] : ['cms'];
+    case 'api::theme.theme':
+      return ['cms', 'theme'];
+    case 'api::footer.footer':
+      return ['cms', 'footer'];
     default:
       return ['cms'];
   }

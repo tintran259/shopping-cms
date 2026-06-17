@@ -130,6 +130,18 @@ export interface BlocksSlide extends Struct.ComponentSchema {
   };
 }
 
+export interface NavFooterColumn extends Struct.ComponentSchema {
+  collectionName: 'components_nav_footer_columns';
+  info: {
+    displayName: 'Footer column';
+    icon: 'bulletList';
+  };
+  attributes: {
+    links: Schema.Attribute.Component<'nav.link', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface NavLink extends Struct.ComponentSchema {
   collectionName: 'components_nav_links';
   info: {
@@ -139,6 +151,9 @@ export interface NavLink extends Struct.ComponentSchema {
   attributes: {
     endAt: Schema.Attribute.DateTime;
     highlight: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    highlightColor: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'>;
+    image: Schema.Attribute.Media<'images'>;
     label: Schema.Attribute.String & Schema.Attribute.Required;
     openInNewTab: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     page: Schema.Attribute.Relation<
@@ -161,6 +176,8 @@ export interface NavMenuItem extends Struct.ComponentSchema {
     endAt: Schema.Attribute.DateTime;
     featuredBanner: Schema.Attribute.Relation<'oneToOne', 'api::banner.banner'>;
     highlight: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    highlightColor: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'>;
     icon: Schema.Attribute.String;
     label: Schema.Attribute.String & Schema.Attribute.Required;
     openInNewTab: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -170,6 +187,21 @@ export interface NavMenuItem extends Struct.ComponentSchema {
     >;
     startAt: Schema.Attribute.DateTime;
     url: Schema.Attribute.String;
+  };
+}
+
+export interface NavSocialLink extends Struct.ComponentSchema {
+  collectionName: 'components_nav_social_links';
+  info: {
+    displayName: 'Social link';
+    icon: 'earth';
+  };
+  attributes: {
+    platform: Schema.Attribute.Enumeration<
+      ['facebook', 'instagram', 'youtube', 'tiktok', 'zalo', 'x', 'linkedin']
+    > &
+      Schema.Attribute.Required;
+    url: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -183,6 +215,9 @@ export interface NavSubmenuItem extends Struct.ComponentSchema {
     children: Schema.Attribute.Component<'nav.link', true>;
     endAt: Schema.Attribute.DateTime;
     highlight: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    highlightColor: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'>;
+    image: Schema.Attribute.Media<'images'>;
     label: Schema.Attribute.String & Schema.Attribute.Required;
     openInNewTab: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     page: Schema.Attribute.Relation<
@@ -203,8 +238,10 @@ declare module '@strapi/strapi' {
       'blocks.image': BlocksImage;
       'blocks.rich-text': BlocksRichText;
       'blocks.slide': BlocksSlide;
+      'nav.footer-column': NavFooterColumn;
       'nav.link': NavLink;
       'nav.menu-item': NavMenuItem;
+      'nav.social-link': NavSocialLink;
       'nav.submenu-item': NavSubmenuItem;
     }
   }

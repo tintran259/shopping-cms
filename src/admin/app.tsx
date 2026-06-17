@@ -2,6 +2,7 @@ import type { StrapiApp } from '@strapi/strapi/admin';
 import TiptapIcon from './components/TiptapIcon';
 import ColorFieldIcon from './components/ColorFieldIcon';
 import SchedulePanel from './components/SchedulePanel';
+import ResetColorsPanel from './components/ResetColorsPanel';
 
 export default {
   config: {
@@ -47,6 +48,10 @@ export default {
   bootstrap(app: StrapiApp) {
     // Add a "Scheduling" side panel to the edit-view right column (next to Publish).
     // It renders only for content types that declare startAt/endAt (see SchedulePanel).
-    (app.getPlugin('content-manager') as any).apis.addEditViewSidePanel([SchedulePanel]);
+    (app.getPlugin('content-manager') as any).apis.addEditViewSidePanel([
+      SchedulePanel,
+      // Resets `global::color` fields to their schema defaults (shows on Theme).
+      ResetColorsPanel,
+    ]);
   },
 };

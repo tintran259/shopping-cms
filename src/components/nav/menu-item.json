@@ -29,6 +29,10 @@
       "type": "boolean",
       "default": false
     },
+    "highlightColor": {
+      "type": "customField",
+      "customField": "global::color"
+    },
     "featuredBanner": {
       "type": "relation",
       "relation": "oneToOne",

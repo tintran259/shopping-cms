@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_nav_footer_columns",
+  "info": {
+    "displayName": "Footer column",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "links": {
+      "type": "component",
+      "component": "nav.link",
+      "repeatable": true
+    }
+  }
+}

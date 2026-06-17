@@ -26,6 +26,15 @@
       "type": "boolean",
       "default": false
     },
+    "highlightColor": {
+      "type": "customField",
+      "customField": "global::color"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
     "startAt": {
       "type": "datetime"
     },
