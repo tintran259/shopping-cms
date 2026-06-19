@@ -498,7 +498,16 @@ export interface ApiContentSlotContentSlot extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     position: Schema.Attribute.Enumeration<
-      ['home-top', 'home-bottom', 'announcement-bar']
+      [
+        'home-top',
+        'home-bottom',
+        'announcement-bar',
+        'plp-top',
+        'plp-bottom',
+        'pdp-top',
+        'pdp-content',
+        'pdp-bottom',
+      ]
     >;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -734,6 +743,18 @@ export interface ApiThemeTheme extends Struct.CollectionTypeSchema {
       Schema.Attribute.CustomField<'global::color'> &
       Schema.Attribute.DefaultTo<'#e11d48'>;
     cartBadgeText: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#ffffff'>;
+    checkboxBackground: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#2563eb'>;
+    checkboxBorder: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#2563eb'>;
+    checkboxDisabled: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'> &
+      Schema.Attribute.DefaultTo<'#e5e7eb'>;
+    checkboxIcon: Schema.Attribute.String &
       Schema.Attribute.CustomField<'global::color'> &
       Schema.Attribute.DefaultTo<'#ffffff'>;
     createdAt: Schema.Attribute.DateTime;

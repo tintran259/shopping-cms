@@ -16,6 +16,9 @@ type Props = {
   value?: string | null;
   onChange?: (e: { target: { name: string; value: string; type: string } }) => void;
   attribute?: { type?: string };
+  // Content Manager passes the configured ("Configure the view") label as a plain
+  // string here; `intlLabel` is only the static custom-field registration label.
+  label?: string;
   intlLabel?: { id: string; defaultMessage: string };
   labelAction?: React.ReactNode;
   required?: boolean;
@@ -25,7 +28,7 @@ type Props = {
 };
 
 const ColorPickerInput = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { value, onChange, attribute, intlLabel, labelAction, required, error, hint, disabled } = props;
+  const { value, onChange, attribute, label, intlLabel, labelAction, required, error, hint, disabled } = props;
   const name = props.name ?? '';
   const { formatMessage } = useIntl();
 
@@ -38,7 +41,7 @@ const ColorPickerInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
   return (
     <Field.Root name={name} id={name} error={error} hint={hint} required={required}>
       <Field.Label action={labelAction}>
-        {intlLabel ? formatMessage(intlLabel) : name}
+        {label || (intlLabel ? formatMessage(intlLabel) : name)}
       </Field.Label>
       <Flex gap={2} alignItems="center">
         <input
@@ -65,18 +68,6 @@ const ColorPickerInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
           disabled={disabled}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => emit(e.target.value)}
         />
-        {/* <span
-          aria-hidden
-          title={str}
-          style={{
-            width: 26,
-            height: 26,
-            flex: '0 0 auto',
-            borderRadius: 4,
-            border: '1px solid #dcdce4',
-            background: str || 'transparent',
-          }}
-        /> */}
       </Flex>
       <Field.Hint />
       <Field.Error />

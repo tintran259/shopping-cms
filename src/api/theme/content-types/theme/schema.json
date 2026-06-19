@@ -303,6 +303,26 @@
       "type": "customField",
       "default": "#9ca3af",
       "customField": "global::color"
+    },
+    "checkboxBorder": {
+      "type": "customField",
+      "default": "#2563eb",
+      "customField": "global::color"
+    },
+    "checkboxBackground": {
+      "type": "customField",
+      "default": "#2563eb",
+      "customField": "global::color"
+    },
+    "checkboxIcon": {
+      "type": "customField",
+      "default": "#ffffff",
+      "customField": "global::color"
+    },
+    "checkboxDisabled": {
+      "type": "customField",
+      "default": "#e5e7eb",
+      "customField": "global::color"
     }
   }
 }
