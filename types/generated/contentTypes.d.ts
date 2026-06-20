@@ -875,6 +875,8 @@ export interface ApiThemeTheme extends Struct.CollectionTypeSchema {
     secondaryHover: Schema.Attribute.String &
       Schema.Attribute.CustomField<'global::color'> &
       Schema.Attribute.DefaultTo<'#475569'>;
+    selectBorder: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'global::color'>;
     sidebarBackground: Schema.Attribute.String &
       Schema.Attribute.CustomField<'global::color'> &
       Schema.Attribute.DefaultTo<'#f9fafb'>;

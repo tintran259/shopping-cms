@@ -274,6 +274,10 @@
       "default": "#e5e7eb",
       "customField": "global::color"
     },
+    "selectBorder": {
+      "type": "customField",
+      "customField": "global::color"
+    },
     "divider": {
       "type": "customField",
       "default": "#f3f4f6",
