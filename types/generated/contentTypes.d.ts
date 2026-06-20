@@ -507,6 +507,10 @@ export interface ApiContentSlotContentSlot extends Struct.CollectionTypeSchema {
         'pdp-top',
         'pdp-content',
         'pdp-bottom',
+        'cart-top',
+        'cart-bottom',
+        'checkout-top',
+        'checkout-bottom',
       ]
     >;
     publishedAt: Schema.Attribute.DateTime;
